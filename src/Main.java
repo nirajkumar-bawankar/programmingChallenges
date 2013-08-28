@@ -10,16 +10,14 @@ import java.util.Scanner;
  * @author Quinn Liu (quinnliu@vt.edu)
  * @version Aug 28, 2013
  */
-public class threeNPlusOne {
+public class Main {
 
     public static void main(String[] args) {
-	threeNPlusOne me = new threeNPlusOne();
-	me.runProblem();
-
+	runProblem();
     }
 
     // Now we're non-static
-    public void runProblem() {
+    public static void runProblem() {
 	Scanner in = new Scanner(System.in);
 
 	while (in.hasNextInt()) {
@@ -29,8 +27,14 @@ public class threeNPlusOne {
 	in.close();
     }
 
-    public void runOne(int i, int j) {
+    public static void runOne(int i, int j) {
 	// ---------------------------Solution--------------------------------
+	if (j < i) {
+	    int temp = i;
+	    i = j;
+	    j = temp;
+	}
+
 	int maximumCycleLength = 0;
 	for (int k = i; k <= j; k++) {
 	    int currentCycleLength = 0;

@@ -1,73 +1,80 @@
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.Scanner;
 
 /**
  * Problem statement can be viewed at:
  * http://www.programming-challenges.com/pg.php
- * ?page=downloadproblem&probid=110101&format=html
+ * ?page=downloadproblem&probid=110201&format=html
  *
  * The following is a solution for the above problem.
  *
  * @author Quinn Liu (quinnliu@vt.edu)
- * @version Aug 28, 2013
+ * @version Sept 2, 2013
  */
 public class Main {
 
     public static void main(String[] args) {
-	runProblem();
+	Main me = new Main();
+	me.runProblem();
+
     }
 
     // Now we're non-static
-    public static void runProblem() {
+    public void runProblem() {
 	Scanner in = new Scanner(System.in);
+	StringTokenizer tokenizer;
+	int numberOfItems;
 
 	while (in.hasNextInt()) {
-	    runOne(in.nextInt(), in.nextInt());
-	}
+	    tokenizer = new StringTokenizer(in.nextLine());
+	    numberOfItems = Integer.parseInt(tokenizer.nextToken());
 
-	in.close();
+//	    int[] numbers = new int[numberOfItems];
+//
+//	    for (int i = 0; i < numberOfItems; i++) {
+//		numbers[i] = Integer.parseInt(tokenizer.nextToken());
+//	    }
+
+	    int[] numbers = {1, 4, 2, 1};
+
+	    runOnce(numbers);
+	}
     }
 
-    public static void runOne(long i_short, long j_short) {
+    public void runOnce(int[] numbers) {
 	// ---------------------------Solution--------------------------------
-	long maximumCycleLength = 0;
-	long from = 0;
-	long to = 0;
 
-	if (i_short < j_short) {
-	    from = i_short;
-	    to = j_short;
+	// store input into an array1
+	// make another boolean array2 of size minus one
+
+	// check the difference of each succesive number in array1
+	// and make it true in array2 at the correct index
+
+	// for loop through array2 to see if any element is false
+	// if any element is false jolly jumper is false
+	// otherwise jollyjumper is true
+	boolean isJollyJumper = false;
+
+	ArrayList differences = new ArrayList();
+
+	for (int i = 0; i < numbers.length - 1; i++) {
+	    int difference = Math.abs(numbers[i] - numbers[i+1]);
+
+	    if (difference == 0) {
+		isJollyJumper = false;
+	    } else if (difference >= numbers.length) {
+		isJollyJumper = false;
+	    } else if (differences.contains(difference)) {
+		isJollyJumper = false;
+	    }
+	    differences.add(difference);
+	}
+
+	if (isJollyJumper) {
+	    System.out.println("Jolly");
 	} else {
-	    from = j_short;
-	    to = i_short;
+	    System.out.println("Not jolly");
 	}
-
-	for (long k = from; k <= to; k++) {
-	    long currentCycleLength = calculateCycleLength(k);
-	    if (currentCycleLength > maximumCycleLength) {
-		maximumCycleLength = currentCycleLength;
-	    }
-	}
-	//     1         2
-	if (j_short < i_short) {
-	    from = i_short;
-	    to = j_short;
-	}
-
-	System.out.println(from + " " + to + " " + maximumCycleLength);
-    }
-
-    static long calculateCycleLength(long number) {
-	long cycleLength = 1;
-
-	while (number != 1) {
-	    cycleLength++;
-
-	    if (number % 2 == 0) {
-		number = number / 2;
-	    } else {
-		number = number * 3 + 1;
-	    }
-	}
-	return cycleLength;
     }
 }

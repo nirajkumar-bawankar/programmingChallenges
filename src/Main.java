@@ -22,38 +22,54 @@ public class Main {
 
 	while (in.hasNextInt()) {
 	    runOne(in.nextInt(), in.nextInt());
+	    in.nextLine();
 	}
 
 	in.close();
+	System.exit(0);
     }
 
-    public static void runOne(int i, int j) {
+    public static void runOne(long i_short, long j_short) {
 	// ---------------------------Solution--------------------------------
-	if (j < i) {
-	    int temp = i;
-	    i = j;
-	    j = temp;
+	long maximumCycleLength = 0;
+	long from = 0;
+	long to = 0;
+
+	if (i_short < j_short) {
+	    from = i_short;
+	    to = j_short;
+	} else {
+	    from = j_short;
+	    to = i_short;
 	}
 
-	int maximumCycleLength = 0;
-	for (int k = i; k <= j; k++) {
-	    int currentCycleLength = 0;
-	    int currentNumber = k;
-	    while (currentNumber != 1 && currentNumber > 0 && currentNumber < 1000000) {
-		if (currentNumber % 2 == 0) {
-		    currentNumber = currentNumber / 2;
-		    currentCycleLength++;
-		} else {
-		    currentNumber = currentNumber * 3 + 1;
-		    currentCycleLength++;
-		}
-	    }
+	for (long k = from; k <= to; k++) {
+	    long currentCycleLength = calculateCycleLength(k);
 	    if (currentCycleLength > maximumCycleLength) {
 		maximumCycleLength = currentCycleLength;
 	    }
-	    currentCycleLength = 0;
 	}
-	maximumCycleLength += 1;
-	System.out.println(i + " " + j + " " + maximumCycleLength);
+	//     1         2
+	if (j_short < i_short) {
+	    from = i_short;
+	    to = j_short;
+	}
+
+	System.out.println(from + " " + to + " " + maximumCycleLength);
+    }
+
+    static long calculateCycleLength(long number) {
+	long cycleLength = 1;
+
+	while (number != 1) {
+	    cycleLength++;
+
+	    if (number % 2 == 0) {
+		number = number / 2;
+	    } else {
+		number = number * 3 + 1;
+	    }
+	}
+	return cycleLength;
     }
 }

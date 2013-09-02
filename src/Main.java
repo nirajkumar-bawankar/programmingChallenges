@@ -22,11 +22,9 @@ public class Main {
 
 	while (in.hasNextInt()) {
 	    runOne(in.nextInt(), in.nextInt());
-	    in.nextLine();
 	}
 
 	in.close();
-	System.exit(0);
     }
 
     public static void runOne(long i_short, long j_short) {

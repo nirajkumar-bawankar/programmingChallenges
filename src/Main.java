@@ -41,10 +41,20 @@ public class Main {
 	if (hand1Value > hand2Value) {
 	    System.out.println("Black wins.");
 	} else if (hand1Value == hand2Value) {
-	    // TODO:
-
-	    // special case of full house
-
+            if (hand1Value == 8) {
+                // Get Highest Card in Three of a Kind
+	        // Compare Player 1's High Card to Player 2's High Card
+	        // If Player 1 has a higher card then player 1 wins
+                // If player 2 has a higher card then player 2 wins
+	        int highHand1Value = get3ofAKind(hand1);
+	        int highHand2Value = get3ofAKind(hand2);
+	        if (highHand1Value > highHand2Value) {
+	            System.out.println("Black wins.");
+	        }
+	        else {
+	            System.out.println();
+	        }
+	    }
 	    System.out.println("Tie.");
 	} else {
 	    System.out.println("White wins.");

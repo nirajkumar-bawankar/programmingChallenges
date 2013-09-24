@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
  * The following is a solution for the above problem.
  *
  * @author Quinn Liu (quinnliu@vt.edu)
- * @version Sept 21, 2013
+ * @version Sept 24, 2013
  */
 public class Main {
     private static int hand1HighCard;
@@ -41,24 +41,42 @@ public class Main {
 	if (hand1Value > hand2Value) {
 	    System.out.println("Black wins.");
 	} else if (hand1Value == hand2Value) {
-            if (hand1Value == 8) {
-                // Get Highest Card in Three of a Kind
-	        // Compare Player 1's High Card to Player 2's High Card
-	        // If Player 1 has a higher card then player 1 wins
-                // If player 2 has a higher card then player 2 wins
-	        int highHand1Value = get3ofAKind(hand1);
-	        int highHand2Value = get3ofAKind(hand2);
-	        if (highHand1Value > highHand2Value) {
-	            System.out.println("Black wins.");
-	        }
-	        else {
-	            System.out.println();
-	        }
+	    if (hand1Value == 6) { // when both hands are a full house
+		// Get Highest Card in Three of a Kind
+		// Compare Player 1's High Card to Player 2's High Card
+		// If Player 1 has a higher card then player 1 wins
+		// If player 2 has a higher card then player 2 wins
+		int highHand1Value = get3OfAKind(hand1);
+		int highHand2Value = get3OfAKind(hand2);
+		if (highHand1Value > highHand2Value) {
+		    System.out.println("Black wins.");
+		} else {
+		    System.out.println("White wins");
+		}
+	    } else { // hand1Value = hand2Value = 0 through 8 except 6
+		     // int hand1HighValue = ; TODO:
+		if (getHighCardWithinHand(hand1) > getHighCardWithinHand(hand2)) {
+		    System.out.println("Black wins.");
+		} else if (getHighCardWithinHand(hand1) == getHighCardWithinHand(hand2)) {
+		    System.out.println("Tie.");
+		} else {
+		    System.out.println("White wins");
+		}
 	    }
-	    System.out.println("Tie.");
 	} else {
 	    System.out.println("White wins.");
 	}
+    }
+
+    static int getHighCardWithinHand(String[] hand) {
+	// remove all cards except the highest card
+	int highCard = 1;
+	for (int i = 0; i < hand.length; i++) {
+	    if (getNumberOfCard(hand[i]) > highCard) {
+		highCard = getNumberOfCard(hand[i]);
+	    }
+	}
+	return highCard;
     }
 
     static int getIndexOfHighCardWithinHand(String[] hand) {

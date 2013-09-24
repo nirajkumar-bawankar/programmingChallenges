@@ -197,6 +197,20 @@ public class Main {
 	return false;
     }
 
+    static int get3OfAKind(String[] hand) {
+	int[] cardValues = new int[14]; // 14 different card values
+	for (String card : hand) {
+	    cardValues[getNumberOfCard(card) - 1]++;
+	}
+
+	for (int i = 0; i < cardValues.length; i++) {
+	    if (cardValues[i] == 3) {
+		return i + 1;
+	    }
+	}
+	return 0;
+    }
+
     static boolean has2Pair(String[] hand) {
 	int numberOfPairs = 0;
 	int[] cardValues = new int[14]; // 14 different card values
@@ -211,8 +225,8 @@ public class Main {
 
 	if (numberOfPairs == 2) {
 	    // remove 2 pair from hand
-
-	    // TODO: do this!
+	    removeOnePairInHand(hand);
+	    removeOnePairInHand(hand);
 	    return true;
 	} else {
 	    return false;
@@ -234,7 +248,11 @@ public class Main {
 
 	if (valueOfPair != 0) {
 	    // there is a pair to be removed
-	    // TODO:
+	    for (int i = 0; i < hand.length; i++) {
+		if (getNumberOfCard(hand[i]) == valueOfPair) {
+		    hand[i] = "00";
+		}
+	    }
 	    return true;
 	} else {
 	    return false;
@@ -258,9 +276,7 @@ public class Main {
 
 	if (numberOfPairs >= 1) {
 	    // remove single pair from hand with card value i + 1
-	    for (int i = 0; i < hand.length; i++) {
-		// TODO:
-	    }
+	    removeOnePairInHand(hand);
 	    return true;
 	} else {
 	    return false;

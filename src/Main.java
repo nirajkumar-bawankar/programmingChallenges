@@ -209,20 +209,26 @@ public class Main {
 
 	for (int i = 0; i < cardValues.length; i++) {
 	    if (cardValues[i] == 3) {
-		// remove 3 of a kind from this hand
-		// i+1 is the the three of a kind
-		for (int j = 0; j < hand.length; j++) {
-		    if (j == (i + 1)) {
-			// remove card from consideration by setting it to 00
-			hand[j] = "00";
-		    } else {
-			// do nothing leaving the remaining card
-		    }
-		}
+		// i + 1 is the card value since cardValues is an
+		// array from 0 to 13
+		remove3OfAKind(hand, (i + 1));
 		return true;
 	    }
 	}
 	return false;
+    }
+
+    static void remove3OfAKind(String[] hand, int cardValue) {
+	// remove 3 of a kind from this hand
+	// i+1 is the the three of a kind
+	for (int j = 0; j < hand.length; j++) {
+	    if (j == (cardValue + 1)) {
+		// remove card from consideration by setting it to 00
+		hand[j] = "00";
+	    } else {
+		// do nothing leaving the remaining card
+	    }
+	}
     }
 
     static int get3OfAKind(String[] hand) {
@@ -253,24 +259,30 @@ public class Main {
 
 	if (numberOfPairs == 2) {
 	    // remove 2 pair from hand
-	    removeOnePairInHand(hand);
-	    removeOnePairInHand(hand);
+	    removeHighestPairInHand(hand);
+	    removeHighestPairInHand(hand);
 	    return true;
 	} else {
 	    return false;
 	}
     }
 
-    static boolean removeOnePairInHand(String[] hand) {
+    static boolean removeHighestPairInHand(String[] hand) {
 	int valueOfPair = 0;
 
 	int[] cardValues = new int[14];
 	for (int i = 0; i < hand.length; i++) {
-	    cardValues[getNumberOfCard(hand[i]) - 1]++;
-	    // cardValues[i] == 1 means that the number (i + 1) appeared twice
-	    // in the hand
-	    if (cardValues[i] == 1) {
-		valueOfPair = i + 1;
+	    // if cards have already been removed from the hand
+	    // they are set to 0
+	    if (getNumberOfCard(hand[i]) == 0) {
+		// do nothing
+	    } else {
+		cardValues[getNumberOfCard(hand[i]) - 1]++;
+		// cardValues[i] == 1 means that the number (i + 1) appeared
+		// twice in the hand
+		if (cardValues[i] == 2) { // when a pair has occured
+		    valueOfPair = i + 1;
+		}
 	    }
 	}
 
@@ -304,7 +316,7 @@ public class Main {
 
 	if (numberOfPairs >= 1) {
 	    // remove single pair from hand with card value i + 1
-	    removeOnePairInHand(hand);
+	    removeHighestPairInHand(hand);
 	    return true;
 	} else {
 	    return false;

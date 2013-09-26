@@ -12,9 +12,6 @@ import java.util.StringTokenizer;
  * @version Sept 24, 2013
  */
 public class Main {
-    private static int hand1HighCard;
-    private static int hand2HighCard;
-
     public static void main(String[] args) {
 	Scanner scanner = new Scanner(System.in);
 	String[] hand1 = new String[5];
@@ -51,7 +48,7 @@ public class Main {
 		if (highHand1Value > highHand2Value) {
 		    System.out.println("Black wins.");
 		} else {
-		    System.out.println("White wins");
+		    System.out.println("White wins.");
 		}
 	    } else { // hand1Value = hand2Value = 0 through 8 except 6
 		     // int hand1HighValue = ; TODO:
@@ -60,7 +57,7 @@ public class Main {
 		} else if (getHighCardWithinHand(hand1) == getHighCardWithinHand(hand2)) {
 		    System.out.println("Tie.");
 		} else {
-		    System.out.println("White wins");
+		    System.out.println("White wins.");
 		}
 	    }
 	} else {
@@ -79,41 +76,31 @@ public class Main {
 	return highCard;
     }
 
-    static int getIndexOfHighCardWithinHand(String[] hand) {
-	// remove all cards except the highest card
-	int highCard = 1;
-	int highCardIndex = 0;
-	for (int i = 0; i < hand.length; i++) {
-	    if (getNumberOfCard(hand[i]) > highCard) {
-		highCard = getNumberOfCard(hand[i]);
-		highCardIndex = i;
-	    }
-	}
-	return highCardIndex;
-    }
-
     static int getHandValue(String[] hand) {
 	if (isStraightFlush(hand)) {
-	    // remove all cards except highest card
 	    return 8;
 	} else if (isFourOfAKind(hand)) {
 	    // remove 4 of a kind from hand
+	    remove4OfAKindInHand(hand);
 	    return 7;
 	} else if (isFullHouse(hand)) {
 	    return 6;
 	} else if (isFlush(hand)) {
-	    // remove all cards except highest card
 	    return 5;
 	} else if (isStraight(hand)) {
-	    // save only highest card
 	    return 4;
 	} else if (has3OfAKind(hand)) {
 	    // save highest card
+	    remove3OfAKind(hand);
 	    return 3;
 	} else if (has2Pair(hand)) {
-	    // save highest card
+	    // save highest card by
+	    // removing 2 pair from hand
+	    removeHighestPairInHand(hand);
+	    removeHighestPairInHand(hand);
 	    return 2;
 	} else if (hasPair(hand)) {
+	    removeHighestPairInHand(hand);
 	    return 1;
 	} else {
 	    return 0; // highcard
@@ -122,17 +109,6 @@ public class Main {
 
     static boolean isStraightFlush(String[] hand) {
 	if (isStraight(hand) && isFlush(hand)) {
-	    int highCardindex = getIndexOfHighCardWithinHand(hand);
-	    // remove all cards in the hand except the largest card to compare
-	    // against other straight flush hands
-	    for (int i = 0; i < hand.length; i++) {
-		if (i == highCardindex) {
-		    // do nothing
-		} else {
-		    // remove card from consideration by setting it to 00
-		    hand[i] = "00";
-		}
-	    }
 	    return true;
 	} else {
 	    return false;
@@ -140,6 +116,28 @@ public class Main {
     }
 
     static boolean isFourOfAKind(String[] hand) {
+	if (get4OfAKind(hand) != 0) {
+	    return true;
+	} else {
+	    return false;
+	}
+    }
+
+    static void remove4OfAKindInHand(String[] hand) {
+	int cardValue = get4OfAKind(hand);
+	// remove 4 of a kind from this hand
+	// i+1 is the the 4 of a kind
+	for (int j = 0; j < hand.length; j++) {
+	    if (getNumberOfCard(hand[j]) == cardValue) {
+		// remove card from consideration by setting it to 00
+		hand[j] = "00";
+	    } else {
+		// do nothing leaving the remaining card
+	    }
+	}
+    }
+
+    static int get4OfAKind(String[] hand) {
 	int[] cardValues = new int[14]; // 14 different card values
 	for (String card : hand) {
 	    cardValues[getNumberOfCard(card) - 1]++;
@@ -147,19 +145,10 @@ public class Main {
 
 	for (int i = 0; i < cardValues.length; i++) {
 	    if (cardValues[i] == 4) {
-		// i+1 is the the four of a kind
-		for (int j = 0; j < hand.length; j++) {
-		    if (j == (i + 1)) {
-			// remove card from consideration by setting it to 00
-			hand[j] = "00";
-		    } else {
-			// do nothing leaving the remaining card
-		    }
-		}
-		return true;
+		return i + 1;
 	    }
 	}
-	return false;
+	return 0;
     }
 
     static boolean isFullHouse(String[] hand) {
@@ -172,8 +161,8 @@ public class Main {
 
     static boolean isFlush(String[] hand) {
 	String suit = getSuit(hand[0]);
-	for (String card : hand) {
-	    if (!getSuit(card).equals(suit)) {
+	for (int i = 1; i < hand.length; i++) {
+	    if (!getSuit(hand[i]).equals(suit)) {
 		return false;
 	    }
 	}
@@ -202,27 +191,19 @@ public class Main {
     }
 
     static boolean has3OfAKind(String[] hand) {
-	int[] cardValues = new int[14]; // 14 different card values
-	for (String card : hand) {
-	    cardValues[getNumberOfCard(card) - 1]++;
+	if (get3OfAKind(hand) != 0) {
+	    return true;
+	} else {
+	    return false;
 	}
-
-	for (int i = 0; i < cardValues.length; i++) {
-	    if (cardValues[i] == 3) {
-		// i + 1 is the card value since cardValues is an
-		// array from 0 to 13
-		remove3OfAKind(hand, (i + 1));
-		return true;
-	    }
-	}
-	return false;
     }
 
-    static void remove3OfAKind(String[] hand, int cardValue) {
+    static void remove3OfAKind(String[] hand) {
+	int cardValue = get3OfAKind(hand);
 	// remove 3 of a kind from this hand
 	// i+1 is the the three of a kind
 	for (int j = 0; j < hand.length; j++) {
-	    if (j == (cardValue + 1)) {
+	    if (getNumberOfCard(hand[j]) == cardValue) {
 		// remove card from consideration by setting it to 00
 		hand[j] = "00";
 	    } else {
@@ -258,9 +239,6 @@ public class Main {
 	}
 
 	if (numberOfPairs == 2) {
-	    // remove 2 pair from hand
-	    removeHighestPairInHand(hand);
-	    removeHighestPairInHand(hand);
 	    return true;
 	} else {
 	    return false;
@@ -315,8 +293,6 @@ public class Main {
 	}
 
 	if (numberOfPairs >= 1) {
-	    // remove single pair from hand with card value i + 1
-	    removeHighestPairInHand(hand);
 	    return true;
 	} else {
 	    return false;

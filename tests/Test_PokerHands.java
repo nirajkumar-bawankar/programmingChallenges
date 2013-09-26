@@ -14,8 +14,8 @@ public class Test_PokerHands extends junit.framework.TestCase {
     private String[] handWith3OfAKind = { "2H", "2D", "2S", "5C", "KD" };
     private String[] handWithStraight = { "2H", "3D", "4S", "5C", "6D" };
     private String[] handWithFlush = { "2H", "7H", "4H", "5H", "6H" };
-    private String[] handWithFullHouse = { "2H", "2H", "2H", "5H", "5H" };
-    private String[] handWithFourOfAKind = { "1H", "2H", "2H", "2H", "2H" };
+    private String[] handWithFullHouse = { "2H", "2H", "2H", "5H", "5D" };
+    private String[] handWith4OfAKind = { "1H", "2H", "2H", "2H", "2D" };
     private String[] handWithStraightFlush = { "QH", "JH", "TH", "KH", "AH" };
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -27,18 +27,29 @@ public class Test_PokerHands extends junit.framework.TestCase {
 	System.setOut(new PrintStream(outContent));
     }
 
-    public void test_printWhichHandWins() {
+    public void test_printBlackWins() {
 	Main.printWhichHandWins(this.handWithStraightFlush,
-		this.handWithFourOfAKind);
-	assertEquals("Black wins.", outContent.toString());
+		this.handWith4OfAKind);
+	assertEquals("Black wins.", outContent.toString().trim());
+    }
 
+    public void test_printWhiteWins() {
 	Main.printWhichHandWins(this.handWithFlush, this.handWithFullHouse);
-	assertEquals("White wins.", outContent.toString());
+	assertEquals("White wins.", outContent.toString().trim());
+    }
+
+    public void test_printTie() {
+	Main.printWhichHandWins(this.handWithFlush, this.handWithFlush);
+	assertEquals("Tie.", outContent.toString().trim());
+    }
+
+    public void test_getHighCardWitinHand() {
+	assertEquals(13, Main.getHighCardWithinHand(this.handWithoutPair));
     }
 
     public void test_getHandValue() {
 	assertEquals(8, Main.getHandValue(this.handWithStraightFlush));
-	assertEquals(7, Main.getHandValue(this.handWithFourOfAKind));
+	assertEquals(7, Main.getHandValue(this.handWith4OfAKind));
 	assertEquals(6, Main.getHandValue(this.handWithFullHouse));
 	assertEquals(5, Main.getHandValue(this.handWithFlush));
 	assertEquals(4, Main.getHandValue(this.handWithStraight));
@@ -49,85 +60,135 @@ public class Test_PokerHands extends junit.framework.TestCase {
     }
 
     public void test_isStraightFlush() {
-	assertTrue(Main.isStraightFlush(this.handWithStraightFlush));
-	assertFalse(Main.isStraightFlush(this.handWithFourOfAKind));
-	assertFalse(Main.isStraightFlush(this.handWithFullHouse));
-	assertFalse(Main.isStraightFlush(this.handWithFlush));
-	assertFalse(Main.isStraightFlush(this.handWithStraight));
-	assertFalse(Main.isStraightFlush(this.handWith3OfAKind));
-	assertFalse(Main.isStraightFlush(this.handWith2Pair));
-	assertFalse(Main.isStraightFlush(this.handWith1Pair));
 	assertFalse(Main.isStraightFlush(this.handWithoutPair));
+	assertFalse(Main.isStraightFlush(this.handWith1Pair));
+	assertFalse(Main.isStraightFlush(this.handWith2Pair));
+	assertFalse(Main.isStraightFlush(this.handWith3OfAKind));
+	assertFalse(Main.isStraightFlush(this.handWithStraight));
+	assertFalse(Main.isStraightFlush(this.handWithFlush));
+	assertFalse(Main.isStraightFlush(this.handWithFullHouse));
+	assertFalse(Main.isStraightFlush(this.handWith4OfAKind));
+	assertTrue(Main.isStraightFlush(this.handWithStraightFlush));
     }
 
     public void test_isFourOfAKind() {
-	assertTrue(Main.isFourOfAKind(this.handWithFourOfAKind));
-	assertFalse(Main.isFourOfAKind(this.handWithFullHouse));
-	assertFalse(Main.isFourOfAKind(this.handWithFlush));
-	assertFalse(Main.isFourOfAKind(this.handWithStraight));
-	assertFalse(Main.isFourOfAKind(this.handWith3OfAKind));
-	assertFalse(Main.isFourOfAKind(this.handWith2Pair));
-	assertFalse(Main.isFourOfAKind(this.handWith1Pair));
 	assertFalse(Main.isFourOfAKind(this.handWithoutPair));
+	assertFalse(Main.isFourOfAKind(this.handWith1Pair));
+	assertFalse(Main.isFourOfAKind(this.handWith2Pair));
+	assertFalse(Main.isFourOfAKind(this.handWith3OfAKind));
+	assertFalse(Main.isFourOfAKind(this.handWithStraight));
+	assertFalse(Main.isFourOfAKind(this.handWithFlush));
+	assertFalse(Main.isFourOfAKind(this.handWithFullHouse));
+	assertTrue(Main.isFourOfAKind(this.handWith4OfAKind));
+	assertFalse(Main.isFourOfAKind(this.handWithStraightFlush));
+    }
+
+    public void test_remove4OfAKindInHand() {
+	Main.remove4OfAKindInHand(this.handWith4OfAKind);
+
+	String[] handWith4OfAKindRemoved = { "1H", "00", "00", "00", "00" };
+	for (int i = 0; i < this.handWith3OfAKind.length; i++) {
+	    assertEquals(handWith4OfAKindRemoved[i], this.handWith4OfAKind[i]);
+	}
+    }
+
+    public void test_get4OfAKind() {
+	assertEquals(0, Main.get4OfAKind(this.handWithoutPair));
+	assertEquals(0, Main.get4OfAKind(this.handWith1Pair));
+	assertEquals(0, Main.get4OfAKind(this.handWith2Pair));
+	assertEquals(0, Main.get4OfAKind(this.handWith3OfAKind));
+	assertEquals(0, Main.get4OfAKind(this.handWithStraight));
+	assertEquals(0, Main.get4OfAKind(this.handWithFlush));
+	assertEquals(0, Main.get4OfAKind(this.handWithFullHouse));
+	assertEquals(2, Main.get4OfAKind(this.handWith4OfAKind));
+	assertEquals(0, Main.get4OfAKind(this.handWithStraightFlush));
     }
 
     public void test_isFullHouse() {
-	assertTrue(Main.isFullHouse(this.handWithFullHouse));
-	assertFalse(Main.isFullHouse(this.handWithFlush));
-	assertFalse(Main.isFullHouse(this.handWithStraight));
-	assertFalse(Main.isFullHouse(this.handWith3OfAKind));
-	assertFalse(Main.isFullHouse(this.handWith2Pair));
-	assertFalse(Main.isFullHouse(this.handWith1Pair));
 	assertFalse(Main.isFullHouse(this.handWithoutPair));
+	assertFalse(Main.isFullHouse(this.handWith1Pair));
+	assertFalse(Main.isFullHouse(this.handWith2Pair));
+	assertFalse(Main.isFullHouse(this.handWith3OfAKind));
+	assertFalse(Main.isFullHouse(this.handWithStraight));
+	assertFalse(Main.isFullHouse(this.handWithFlush));
+	assertTrue(Main.isFullHouse(this.handWithFullHouse));
+	assertFalse(Main.isFullHouse(this.handWith4OfAKind));
+	assertFalse(Main.isFullHouse(this.handWithStraightFlush));
     }
 
     public void test_isFlush() {
-	assertFalse(Main.has3OfAKind(this.handWith1Pair));
-	assertFalse(Main.has3OfAKind(this.handWith2Pair));
-	assertFalse(Main.has3OfAKind(this.handWith3OfAKind));
-	assertFalse(Main.has3OfAKind(this.handWithStraight));
-	assertTrue(Main.has3OfAKind(this.handWithFlush));
-	assertFalse(Main.has3OfAKind(this.handWithFullHouse));
-	assertFalse(Main.has3OfAKind(this.handWithFourOfAKind));
-	assertTrue(Main.has3OfAKind(this.handWithStraightFlush));
+	assertFalse(Main.isFlush(this.handWithoutPair));
+	assertFalse(Main.isFlush(this.handWith1Pair));
+	assertFalse(Main.isFlush(this.handWith2Pair));
+	assertFalse(Main.isFlush(this.handWith3OfAKind));
+	assertFalse(Main.isFlush(this.handWithStraight));
+	assertTrue(Main.isFlush(this.handWithFlush));
+	assertFalse(Main.isFlush(this.handWithFullHouse));
+	assertFalse(Main.isFlush(this.handWith4OfAKind));
+	assertTrue(Main.isFlush(this.handWithStraightFlush));
     }
 
     public void test_isStraight() {
-	assertFalse(Main.has3OfAKind(this.handWith1Pair));
-	assertFalse(Main.has3OfAKind(this.handWith2Pair));
-	assertFalse(Main.has3OfAKind(this.handWith3OfAKind));
-	assertTrue(Main.has3OfAKind(this.handWithStraight));
-	assertFalse(Main.has3OfAKind(this.handWithFlush));
-	assertFalse(Main.has3OfAKind(this.handWithFullHouse));
-	assertFalse(Main.has3OfAKind(this.handWithFourOfAKind));
-	assertTrue(Main.has3OfAKind(this.handWithStraightFlush));
+	assertFalse(Main.isStraight(this.handWithoutPair));
+	assertFalse(Main.isStraight(this.handWith1Pair));
+	assertFalse(Main.isStraight(this.handWith2Pair));
+	assertFalse(Main.isStraight(this.handWith3OfAKind));
+	assertTrue(Main.isStraight(this.handWithStraight));
+	assertFalse(Main.isStraight(this.handWithFlush));
+	assertFalse(Main.isStraight(this.handWithFullHouse));
+	assertFalse(Main.isStraight(this.handWith4OfAKind));
+	assertTrue(Main.isStraight(this.handWithStraightFlush));
     }
 
     public void test_has3OfAKind() {
+	assertFalse(Main.has3OfAKind(this.handWithoutPair));
 	assertFalse(Main.has3OfAKind(this.handWith1Pair));
 	assertFalse(Main.has3OfAKind(this.handWith2Pair));
 	assertTrue(Main.has3OfAKind(this.handWith3OfAKind));
 	assertFalse(Main.has3OfAKind(this.handWithStraight));
 	assertFalse(Main.has3OfAKind(this.handWithFlush));
 	assertTrue(Main.has3OfAKind(this.handWithFullHouse));
-	assertFalse(Main.has3OfAKind(this.handWithFourOfAKind));
+	assertFalse(Main.has3OfAKind(this.handWith4OfAKind));
 	assertFalse(Main.has3OfAKind(this.handWithStraightFlush));
     }
 
     public void test_remove3OfAKind() {
-	// TODO:
+	Main.remove3OfAKind(this.handWith3OfAKind);
+
+	String[] handWith3OfAKindRemoved = { "00", "00", "00", "5C", "KD" };
+	for (int i = 0; i < this.handWith3OfAKind.length; i++) {
+	    assertEquals(handWith3OfAKindRemoved[i], this.handWith3OfAKind[i]);
+	}
+
+	Main.remove3OfAKind(this.handWithFullHouse);
+	String[] handWith3OfAKindRemoved2 = { "00", "00", "00", "5H", "5D" };
+	for (int i = 0; i < this.handWith3OfAKind.length; i++) {
+	    assertEquals(handWith3OfAKindRemoved2[i], this.handWithFullHouse[i]);
+	}
     }
 
     public void test_get3OfAKind() {
+	assertEquals(0, Main.get3OfAKind(this.handWithoutPair));
+	assertEquals(0, Main.get3OfAKind(this.handWith1Pair));
+	assertEquals(0, Main.get3OfAKind(this.handWith2Pair));
 	assertEquals(2, Main.get3OfAKind(this.handWith3OfAKind));
-	assertEquals(0, Main.get3OfAKind(this.handWithFourOfAKind));
+	assertEquals(0, Main.get3OfAKind(this.handWithStraight));
+	assertEquals(0, Main.get3OfAKind(this.handWithFlush));
 	assertEquals(2, Main.get3OfAKind(this.handWithFullHouse));
+	assertEquals(0, Main.get3OfAKind(this.handWith4OfAKind));
+	assertEquals(0, Main.get3OfAKind(this.handWithStraightFlush));
     }
 
     public void test_has2Pair() {
-	assertTrue(Main.has2Pair(this.handWith2Pair));
-	assertFalse(Main.has2Pair(this.handWith1Pair));
 	assertFalse(Main.has2Pair(this.handWithoutPair));
+	assertFalse(Main.has2Pair(this.handWith1Pair));
+	assertTrue(Main.has2Pair(this.handWith2Pair));
+	assertFalse(Main.has2Pair(this.handWith3OfAKind));
+	assertFalse(Main.has2Pair(this.handWithStraight));
+	assertFalse(Main.has2Pair(this.handWithFlush));
+	assertFalse(Main.has2Pair(this.handWithFullHouse));
+	assertFalse(Main.has2Pair(this.handWith4OfAKind));
+	assertFalse(Main.has2Pair(this.handWithStraightFlush));
     }
 
     public void test_removeHighestPairInHand() {
@@ -152,8 +213,15 @@ public class Test_PokerHands extends junit.framework.TestCase {
     }
 
     public void test_hasPair() {
-	assertTrue(Main.hasPair(this.handWith1Pair));
 	assertFalse(Main.hasPair(this.handWithoutPair));
+	assertTrue(Main.hasPair(this.handWith1Pair));
+	assertTrue(Main.hasPair(this.handWith2Pair));
+	assertFalse(Main.hasPair(this.handWith3OfAKind));
+	assertFalse(Main.hasPair(this.handWithStraight));
+	assertFalse(Main.hasPair(this.handWithFlush));
+	assertTrue(Main.hasPair(this.handWithFullHouse));
+	assertFalse(Main.hasPair(this.handWith4OfAKind));
+	assertFalse(Main.hasPair(this.handWithStraightFlush));
     }
 
     public void test_getNumberOfCard() {

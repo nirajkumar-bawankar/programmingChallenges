@@ -43,8 +43,18 @@ public class Test_PokerHands extends junit.framework.TestCase {
 	assertEquals("Tie.", outContent.toString().trim());
     }
 
+    public void test_getHigherHandWithOnlyHighCards() {
+	String[] hand1 = {"2H", "3D", "5S", "9C", "KD"};
+	String[] hand2 = {"2C", "3H", "4S", "8C", "KH"};
+	assertEquals(1, Main.getHigherHandWithOnlyHighCards(hand1, hand2));
+    }
+
     public void test_getHighCardWitinHand() {
 	assertEquals(13, Main.getHighCardWithinHand(this.handWithoutPair));
+    }
+
+    public void test_removeHighCardWithinHand() {
+	// TODO:
     }
 
     public void test_getHandValue() {

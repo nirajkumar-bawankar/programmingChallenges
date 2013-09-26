@@ -1,3 +1,9 @@
+import java.util.Collections;
+
+import java.util.List;
+
+import java.util.ArrayList;
+
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -8,8 +14,12 @@ import java.util.StringTokenizer;
  *
  * The following is a solution for the above problem.
  *
+ * TODO: The following solution is correct but needs to be made object oriented
+ * with a private Hand class that holds it's hand value and a list of it's
+ * remaining high cards.
+ *
  * @author Quinn Liu (quinnliu@vt.edu)
- * @version Sept 24, 2013
+ * @version Sept 26, 2013
  */
 public class Main {
     public static void main(String[] args) {
@@ -40,9 +50,6 @@ public class Main {
 	} else if (hand1Value == hand2Value) {
 	    if (hand1Value == 6) { // when both hands are a full house
 		// Get Highest Card in Three of a Kind
-		// Compare Player 1's High Card to Player 2's High Card
-		// If Player 1 has a higher card then player 1 wins
-		// If player 2 has a higher card then player 2 wins
 		int highHand1Value = get3OfAKind(hand1);
 		int highHand2Value = get3OfAKind(hand2);
 		if (highHand1Value > highHand2Value) {
@@ -50,19 +57,50 @@ public class Main {
 		} else {
 		    System.out.println("White wins.");
 		}
-	    } else { // hand1Value = hand2Value = 0 through 8 except 6
-		     // int hand1HighValue = ; TODO:
-		if (getHighCardWithinHand(hand1) > getHighCardWithinHand(hand2)) {
+	    } else {
+		// all hands have had their valuable cards removed to make
+		// both hands have a hand value of 0
+		if (getHigherHandWithOnlyHighCards(hand1, hand2) == 1) {
 		    System.out.println("Black wins.");
-		} else if (getHighCardWithinHand(hand1) == getHighCardWithinHand(hand2)) {
-		    System.out.println("Tie.");
-		} else {
+		} else if (getHigherHandWithOnlyHighCards(hand1, hand2) == 2) {
 		    System.out.println("White wins.");
+		} else { // returned 0
+		    System.out.println("Tie.");
 		}
 	    }
 	} else {
 	    System.out.println("White wins.");
 	}
+    }
+
+    /**
+     * @return 0 if hand1 ties hand2, 1 if hand1 beats hand2, or 2 if hand1
+     *         loses to hand2.
+     */
+    static int getHigherHandWithOnlyHighCards(String[] hand1, String[] hand2) {
+	List<Integer> hand1CardNumbers = new ArrayList<Integer>(5);
+	List<Integer> hand2CardNumbers = new ArrayList<Integer>(5);
+
+	for (int i = 0; i < hand1.length; i++) {
+	    hand1CardNumbers.add(new Integer(getNumberOfCard(hand1[i])));
+	    hand2CardNumbers.add(new Integer(getNumberOfCard(hand2[i])));
+	}
+	// sort both arraylists
+	Collections.sort(hand1CardNumbers);
+	Collections.sort(hand2CardNumbers);
+
+	// iterate through the arraylist to starting at the highest card
+	// within the hand
+	for (int i = hand1CardNumbers.size()-1; i >= 0; i--) {
+	    if (hand1CardNumbers.get(i) > hand2CardNumbers.get(i)) {
+		return 1;
+	    } else if (hand1CardNumbers.get(i) < hand2CardNumbers.get(i)) {
+		return 2;
+	    } else {
+		// do nothing if equal to each other
+	    }
+	}
+	return 0;
     }
 
     static int getHighCardWithinHand(String[] hand) {
@@ -74,6 +112,21 @@ public class Main {
 	    }
 	}
 	return highCard;
+    }
+
+    static int removeHighCardWithinHand(String[] hand) {
+	int highCard = getHighCardWithinHand(hand);
+	if (highCard != 0) {
+	    // there is a high card to be removed
+	    for (int i = 0; i < hand.length; i++) {
+		if (getNumberOfCard(hand[i]) == highCard) {
+		    hand[i] = "00";
+		}
+	    }
+	    return highCard;
+	} else {
+	    return highCard;
+	}
     }
 
     static int getHandValue(String[] hand) {

@@ -1,9 +1,12 @@
 Programming-Challenges
 ======================
-Solutions to problems found @  http://www.programming-challenges.com
-are within the src folder of this repository.
+This repo holds java solutions to problems found @  http://www.programming-challenges.com
 
-To correctly submit any of the java files to http://www.programming-challenges.com you must rename the file to "Main.java".
+To correctly submit any of the java files to http://www.programming-challenges.com you must rename the solution file in the src folder to "Main.java".
+
+Currently working solutions are:
+  + JollyJumpers
+  + ThreeNPlusOne
 
 ===============================================
 e-mail me at quinnliu@vt.edu for any questions!

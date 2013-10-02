@@ -48,7 +48,7 @@ public class Main {
 	if (hand1Value > hand2Value) {
 	    System.out.println("Black wins.");
 	} else if (hand1Value == hand2Value) {
-	    if (hand1Value == 6) { // when both hands are a full house
+	    if (hand1Value == 6 && hand2Value == 6) { // when both hands are a full house
 		// Get Highest Card in Three of a Kind
 		int highHand1Value = get3OfAKind(hand1);
 		int highHand2Value = get3OfAKind(hand2);

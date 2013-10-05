@@ -1,3 +1,6 @@
+package problems;
+import problems.Main;
+
 import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
 

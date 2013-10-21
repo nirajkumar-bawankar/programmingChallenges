@@ -11,7 +11,6 @@ Currently working solutions are:
   + ThreeNPlusOne.java
   + StacksOfFlapjacks.cpp
   + AMultiplicationGame.cpp
-  + OMG!!!!!!!
 
 ===============================================
 e-mail me at quinnliu@vt.edu for any questions!

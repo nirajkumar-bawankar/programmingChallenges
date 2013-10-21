@@ -9,6 +9,8 @@ Currently working solutions are:
   + JollyJumpers.java
   + CommonPermutations.cpp
   + ThreeNPlusOne.java
+  + StacksOfFlapjacks.cpp
+  + AMultiplicationGame.cpp
 
 ===============================================
 e-mail me at quinnliu@vt.edu for any questions!

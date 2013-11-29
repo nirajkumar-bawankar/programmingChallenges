@@ -1,81 +1,68 @@
-
-#include <iostream>
 #include <vector>
 #include <queue>
+#include <iostream>
 
 #define RED 1
 #define BLACK (-1)
 
 using namespace std;
 
-typedef vector<vector<int>> Graph;
+// contains no self loops (edges from a vertex to itself)
+typedef vector<vector<int> > undirectedConnectedGraph;
 
-// TODO Bicoloring still needs more refractoring
+bool isBicolorable(const undirectedConnectedGraph graph) {
+    bool isBicolorable = true;
 
-bool bicolorable(const Graph graph) {
-    bool answer = true;
+    vector<int> colorsOfEachElement(graph.size()); // construct a vector with the size of the graph
 
-    vector<int> color(graph.size()); // Construct a vector with the size of the graph
+    queue<int> queue;
 
-    queue<int> single_queue;
-    color[0] = RED;
-    single_queue.push(0);
+    colorsOfEachElement[0] = RED; // initial color
+    queue.push(0);
 
-    while (! single_queue.empty()) { // While the queue is not empty
-
-        int v = single_queue.front();  // Get the front item
-        int c = color[v];
+    while (!queue.empty()) { // While the queue is not empty
+        int v = queue.front();  // Get the front item
+        int c = colorsOfEachElement[v];
 
         for (int i = 0; i < graph[v].size(); i++) {
-
             int v2 = graph[v][i];
-            int & c2 = color[v2];
+            int & c2 = colorsOfEachElement[v2];
 
-            if (! color[v2]) {
-              c2 = c * -1;
-              single_queue.push(v2);
-            }
-
-            else if (c2 * c != -1) {
-                answer = false;
+            if (!colorsOfEachElement[v2]) {
+                c2 = c * -1;
+                queue.push(v2);
+            } else if (c2 * c != -1) {
+                isBicolorable = false;
                 break;
             }
-
         }
-
-      single_queue.pop();
-
+        queue.pop();
     }
-
-    return anwser;
+    return isBicolorable;
 }
 
 int main() {
-    int numberOfVertices = 0; // Set the default number of vertices to be 0
+    int numberOfVertices = 0; // set the default number of vertices to be 0
 
     while ((cin >> numberOfVertices) && numberOfVertices) {
-      
-        Graph graph(numberOfVertices);
+
+        undirectedConnectedGraph graph(numberOfVertices);
 
         int numberOfEdges = 0;
         cin >> numberOfEdges;
-        
+
         for (int i = 0; i < numberOfEdges; i++) {
             int v1, v2;
-            cin >> v1 >> v2; // First get v1 then get v2
-            graph[v1].push_back(v2); // Add V2 at the end
-            graph[v2].push_back(v1); // Add V1 at the end
+            cin >> v1 >> v2; // first get v1 then get v2
+            graph[v1].push_back(v2);
+            graph[v2].push_back(v1);
         }
-        
-        if (bicolorable(graph)) {
+
+        if (isBicolorable(graph)) {
             cout << "BICOLORABLE." << endl;
-        }
-        
-        else {
+        } else {
             cout << "NOT BICOLORABLE." << endl;
         }
-
     }
-
-  return 0;
+    return 0;
 }

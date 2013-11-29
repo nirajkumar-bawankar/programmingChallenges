@@ -9,6 +9,7 @@ import java.util.Scanner;
  * The following is a solution for the above problem.
  *
  * @author Quinn Liu (quinnliu@vt.edu)
+ * @author Jason Riddle
  * @version Sept 2, 2013
  */
 public class ThreeNPlusOne {

@@ -11,6 +11,9 @@ import java.io.IOException;
  * ?page=downloadproblem&probid=110204&format=html
  *
  * The following is a solution for the above problem.
+ *
+ * @author Quinn Liu
+ * @author Jason Riddle
  */
 public class Main {
     private static final int NUMBER_OF_UNIQUE_LETTERS = 26;

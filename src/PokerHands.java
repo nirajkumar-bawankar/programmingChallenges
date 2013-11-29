@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
  * remaining high cards.
  *
  * @author Quinn Liu (quinnliu@vt.edu)
+ * @author Jason Riddle
  * @version Sept 26, 2013
  */
 public class PokerHands {

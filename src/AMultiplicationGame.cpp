@@ -9,6 +9,9 @@ static bool willStanWin(unsigned int n);
  * Problem statement can be viewed at:
  * http://www.programming-challenges.com/pg.php?page=downloadproblem&probid=110505&format=html
  *
+ * @author Quinn Liu
+ * @author Jason Riddle
+ *
  * The following is a solution for the above problem.
  */
 int main(void) {

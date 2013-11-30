@@ -14,25 +14,27 @@ typedef vector<vector<int> > undirectedConnectedGraph;
 bool isBicolorable(const undirectedConnectedGraph undirectedConnectedGraph) {
 	bool isBicolorable = true;
 
-	vector<int> colorsOfEachElement(undirectedConnectedGraph.size()); // construct a vector with the size of the graph
+	vector<int> colorOfNodes(undirectedConnectedGraph.size()); // construct a vector with the size of the graph
 
 	queue<int> queueOfAdjacentVertices;
 
-	colorsOfEachElement[0] = GREEN; // initial color
+	colorOfNodes[0] = GREEN; // initial color
 	queueOfAdjacentVertices.push(0);
 
 	while (!queueOfAdjacentVertices.empty()) {
 		int vertex = queueOfAdjacentVertices.front();
-		int colorOfVertex = colorsOfEachElement[vertex];
+		int colorOfVertex = colorOfNodes[vertex];
 
 		for (int i = 0; i < undirectedConnectedGraph[vertex].size(); i++) {
 			int adjacentVertex = undirectedConnectedGraph[vertex][i];
-			int & colorOfAdjacentVertex = colorsOfEachElement[adjacentVertex];
+			int &colorOfAdjacentVertex = colorOfNodes[adjacentVertex];
 
-			if (!colorsOfEachElement[adjacentVertex]) {
-				colorOfAdjacentVertex = colorOfVertex * -1;
+			if (!colorOfNodes[adjacentVertex]) {
+				// if color is GREEEN (1)
+				colorOfAdjacentVertex = colorOfVertex * -1; // make adjacent vertex color RED (-1)
 				queueOfAdjacentVertices.push(adjacentVertex);
 			} else if (colorOfAdjacentVertex * colorOfVertex != -1) {
+				// found an adjacent vertex with the same color
 				isBicolorable = false;
 				break;
 			}
@@ -43,7 +45,7 @@ bool isBicolorable(const undirectedConnectedGraph undirectedConnectedGraph) {
 }
 
 int main() {
-	int numberOfVertices = 0; // set the default number of vertices to be 0
+	int numberOfVertices = 0;
 
 	while ((cin >> numberOfVertices) && numberOfVertices) {
 
@@ -54,10 +56,10 @@ int main() {
 
 		// build undirected connected graph
 		for (int i = 0; i < numberOfEdges; i++) {
-			int v1, v2;
-			cin >> v1 >> v2;
-			undirectedConnectedGraph[v1].push_back(v2);
-			undirectedConnectedGraph[v2].push_back(v1);
+			int vertex1, vertex2;
+			cin >> vertex1 >> vertex2;
+			undirectedConnectedGraph[vertex1].push_back(vertex2);
+			undirectedConnectedGraph[vertex2].push_back(vertex1);
 		}
 
 		if (isBicolorable(undirectedConnectedGraph)) {

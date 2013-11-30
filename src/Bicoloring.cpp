@@ -2,6 +2,12 @@
 #include <queue>
 #include <iostream>
 
+/**
+ * Problem statement can be viewed at:
+ * http://www.programming-challenges.com/pg.php?page=downloadproblem&probid=110901&format=html
+ *
+ * The following is a solution for the above problem.
+ */
 // in the spirit of Christmas
 #define GREEN 1
 #define RED (-1)

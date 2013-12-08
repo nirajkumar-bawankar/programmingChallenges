@@ -6,11 +6,14 @@ To correctly submit any of the java files to http://www.programming-challenges.c
 The C++ file do not need to be renamed to correctly be submitted.
 
 Currently working solutions are:
-  + JollyJumpers.java
-  + CommonPermutations.cpp
-  + ThreeNPlusOne.java
-  + StacksOfFlapjacks.cpp
   + AMultiplicationGame.cpp
+  + Bicoloring.cpp
+  + CommonPermutations.cpp
+  + JollyJumpers.java
+  + SelfDescribingSequence.cpp
+  + Shoemaker.cpp
+  + StacksOfFlapjacks.cpp
+  + ThreeNPlusOne.java
 
 ===============================================
 e-mail me at quinnliu@vt.edu for any questions!

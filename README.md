@@ -8,6 +8,7 @@ The C++ file do not need to be renamed to correctly be submitted.
 Currently working solutions are:
   + AMultiplicationGame.cpp
   + Bicoloring.cpp
+  + Bridge.cpp
   + CommonPermutations.cpp
   + CryptKicker.java
   + JollyJumpers.java

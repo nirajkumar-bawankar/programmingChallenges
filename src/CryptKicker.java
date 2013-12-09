@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Quinn Liu
  * @author Jason Riddle
  */
-public class Main {
+public class CryptKicker {
     private static final int NUMBER_OF_UNIQUE_LETTERS = 26;
     private static final int DICTIONARY_WORD_MAXIMUM_LENGTH = 16;
     private static final char ASTERISK = '*';

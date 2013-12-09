@@ -9,6 +9,7 @@ Currently working solutions are:
   + AMultiplicationGame.cpp
   + Bicoloring.cpp
   + CommonPermutations.cpp
+  + CryptKicker.java
   + JollyJumpers.java
   + SelfDescribingSequence.cpp
   + Shoemaker.cpp

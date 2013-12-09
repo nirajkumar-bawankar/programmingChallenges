@@ -120,7 +120,7 @@ int main() {
 			cin >> timeToCrossForAllPeople[index];
 		}
 
-		vector<vector<int> > sequenceOfPeopleCrossingTime;
+		vector < vector<int> > sequenceOfPeopleCrossingTime;
 
 		int minimumTimeForEveryoneToCrossBridge =
 				computeMinimumTimeToCrossBridge(timeToCrossForAllPeople,

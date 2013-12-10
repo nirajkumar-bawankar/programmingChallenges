@@ -17,6 +17,9 @@ static int minimumNumberOfEdgesToGoThrough(const UndirectedGraph & undirectedGra
 /**
  * Problem statement can be viewed at:
  * http://www.programming-challenges.com/pg.php?page=downloadproblem&probid=110903&format=html
+ * 
+ * @author Quinn Liu (quinnliu@vt.edu)
+ * @author Jason Riddle (jr1285@vt.edu)
  *
  * The following is a solution for the above problem.
  */

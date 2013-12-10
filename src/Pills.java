@@ -2,67 +2,73 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
 
+/**
+ * Problem statement can be viewed at:
+ * https://theta.cs.vt.edu/acm/shared/fall2013
+ * /handouts-week9/rockymountain2012problems/pills.pdf
+ *
+ * The following is a solution for the above problem.
+ */
 public class Pills {
 
+    /**
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
+	@SuppressWarnings("resource")
 	Scanner scanner = new Scanner(System.in);
 
 	int numberOfPills = scanner.nextInt();
 
-	BigInteger[] catB = new BigInteger[34];
+	BigInteger[] concatinatedValidStrings = new BigInteger[34];
 
-	for (int i = 0; i < catB.length; i++) {
-	    catB[i] = BigInteger.ZERO;
+	for (int i = 0; i < concatinatedValidStrings.length; i++) {
+	    concatinatedValidStrings[i] = BigInteger.ZERO;
 	}
 
-	int[] cat = new int[34];
-	cat = solve(cat);
-	catB = solve3(catB);
+	int[] concatinatedValidOptions = new int[34];
+	concatinatedValidOptions = getDifferentValidStrings1(concatinatedValidOptions);
+	concatinatedValidStrings = getDifferentValidStrings2(concatinatedValidStrings);
 
 	while (numberOfPills != 0) {
-	    System.out.println(catB[numberOfPills + 1]);
+	    System.out.println(concatinatedValidStrings[numberOfPills + 1]);
 
 	    numberOfPills = scanner.nextInt();
 	}
     }
 
-    public static int[] solve(int[] cat) {
-	cat[1] = 1;
+    /**
+     * @param concatinatedString
+     * @return
+     */
+    public static int[] getDifferentValidStrings1(int[] concatinatedString) {
+	concatinatedString[1] = 1;
 
 	for (int i = 2; i <= 31; i++) {
-	    for (int j = 1; j <= i - 1; j++) {
-		int mult = cat[j] * cat[i - j];
-		cat[i] = cat[i] + mult;
+	    for (int j = 1; j <= (i - 1); j++) {
+		int product = concatinatedString[j] * concatinatedString[i - j];
+		concatinatedString[i] = concatinatedString[i] + product;
 	    }
 	}
-	return cat;
-
+	return concatinatedString;
     }
 
-    public static BigInteger[] solve3(BigInteger[] cat) {
-	cat[1] = (BigInteger.valueOf(1));
+    /**
+     * @param concatinatedString
+     * @return
+     */
+    public static BigInteger[] getDifferentValidStrings2(
+	    BigInteger[] concatinatedString) {
+	concatinatedString[1] = (BigInteger.valueOf(1));
 
 	for (int i = 2; i <= 31; i++) {
 	    for (int j = 1; j <= i - 1; j++) {
-		BigInteger mult = cat[j].multiply(cat[i - j]);
-		cat[i] = ((cat[i]).add(mult));
+		BigInteger product = concatinatedString[j]
+			.multiply(concatinatedString[i - j]);
+		concatinatedString[i] = ((concatinatedString[i]).add(product));
 	    }
 	}
-	return cat;
-
-    }
-
-    public static ArrayList solve2(ArrayList<BigInteger> cat2) {
-	cat2.add(BigInteger.valueOf(0));
-	cat2.add(BigInteger.valueOf(1));
-
-	for (int i = 2; i <= 31; i++) {
-	    for (int j = 1; j <= i - 1; j++) {
-		BigInteger val = cat2.get(i).add(
-			(cat2.get(j).multiply(cat2.get(i - j))));
-		cat2.set(i, val);
-	    }
-	}
-	return cat2;
+	return concatinatedString;
     }
 }

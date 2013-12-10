@@ -2,6 +2,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * @version Dec 9, 2013
+ */
 public class ErraticAnts {
     public static void main(String[] args) {
 	Scanner sc = new Scanner(System.in);

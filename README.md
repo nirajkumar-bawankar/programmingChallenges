@@ -7,6 +7,7 @@ The C++ file do not need to be renamed to correctly be submitted.
 
 Currently working solutions are:
   + AMultiplicationGame.cpp
+  + ATouristGuide.cpp
   + Bicoloring.cpp
   + Bridge.cpp (MUST be submitted to http://uva.onlinejudge.org/)
   + CommonPermutations.cpp

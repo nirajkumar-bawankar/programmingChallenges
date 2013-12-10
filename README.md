@@ -8,9 +8,9 @@ The C++ file do not need to be renamed to correctly be submitted.
 Currently working solutions are:
   + AMultiplicationGame.cpp
   + Bicoloring.cpp
-  + Bridge.cpp
+  + Bridge.cpp (MUST be submitted to http://uva.onlinejudge.org/)
   + CommonPermutations.cpp
-  + CryptKicker.java
+  + CryptKicker.java (MUST be submitted to http://uva.onlinejudge.org/)
   + JollyJumpers.java
   + SelfDescribingSequence.cpp
   + Shoemaker.cpp

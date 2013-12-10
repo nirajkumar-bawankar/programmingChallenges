@@ -11,10 +11,16 @@ Currently working solutions are:
   + Bridge.cpp (MUST be submitted to http://uva.onlinejudge.org/)
   + CommonPermutations.cpp
   + CryptKicker.java (MUST be submitted to http://uva.onlinejudge.org/)
+  + ErraticAnts.java (Regional Qualifier)
+  + GoldbachConjecture.java (Regional Qualifier)
   + JollyJumpers.java
+  + Oddities.java (Regional Qualifier)
+  + Pills.java (Rocky Mountain 2012 Competiton)
+  + PokerHands.java (TODO: currently not working)
   + SelfDescribingSequence.cpp
   + Shoemaker.cpp
   + StacksOfFlapjacks.cpp
+  + TernarianWeights.java (Regional Qualifier)
   + ThreeNPlusOne.java
 
 ===============================================

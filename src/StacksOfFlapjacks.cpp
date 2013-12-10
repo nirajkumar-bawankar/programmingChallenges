@@ -15,7 +15,7 @@ static vector<int> getAllFlipLocations(
  * The following is a solution for the above problem.
  *
  * @author Quinn Liu (quinnliu@vt.edu)
- * @author Jason Riddle
+ * @author Jason Riddle (jr1285@vt.edu)
  */
 int main(void) {
 	string stackOfPancakes;

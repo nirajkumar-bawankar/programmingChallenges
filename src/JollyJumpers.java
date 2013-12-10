@@ -11,7 +11,7 @@ import java.util.Scanner;
  * The following is a solution for the above problem.
  *
  * @author Quinn Liu (quinnliu@vt.edu)
- * @author Jason Riddle
+ * @author Jason Riddle (jr1285@vt.edu)
  * @version Sept 4, 2013
  */
 public class JollyJumpers {

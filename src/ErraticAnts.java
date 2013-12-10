@@ -2,155 +2,170 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
+public class ErraticAnts {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 
-        int number_of_cases = sc.nextInt();
+	int numberOfProblems = scanner.nextInt();
 
-        int current_case = 1;
+	int currentCase = 1;
 
-        while (current_case < number_of_cases + 1) {
+	while (currentCase < numberOfProblems + 1) {
 
-            int path_length = sc.nextInt();
+	    int path_length = scanner.nextInt();
 
-            sc.nextLine();
+	    scanner.nextLine();
 
-            Map<Coordinate, CostLinks> map = new HashMap<Coordinate, CostLinks>();
+	    Map<Coordinate, CostLinks> map = new HashMap<Coordinate, CostLinks>();
 
-            Coordinate zeroCoordinate = new Coordinate(0, 0);
+	    Coordinate zeroCoordinate = new Coordinate(0, 0);
 
-            map.put(zeroCoordinate, new CostLinks().cost(0));
+	    map.put(zeroCoordinate, new CostLinks().cost(0));
 
-            int x = 0;
-            int y = 0;
+	    int x = 0;
+	    int y = 0;
 
-            int path_num = 1;
+	    int path_num = 1;
 
-            while (path_num < path_length + 1) {
+	    while (path_num < path_length + 1) {
 
-                char dir = sc.nextLine().charAt(0);
+		char dir = scanner.nextLine().charAt(0);
 
-                Coordinate tempCoordinate = new Coordinate(x, y);
+		Coordinate tempCoordinate = new Coordinate(x, y);
 
-                map.get(tempCoordinate).link(dir);
+		map.get(tempCoordinate).link(dir);
 
-                if (dir == 'N') {
-                    x++;
-                }
+		if (dir == 'N') {
+		    x++;
+		}
 
-                else if (dir == 'S') {
-                    x--;
-                }
+		else if (dir == 'S') {
+		    x--;
+		}
 
-                else if (dir == 'W') {
-                    y++;
-                }
+		else if (dir == 'W') {
+		    y++;
+		}
 
-                else if (dir == 'E') {
-                    y--;
-                }
+		else if (dir == 'E') {
+		    y--;
+		}
 
-                if (! map.containsKey(new Coordinate(x, y))) {
-                    map.put(new Coordinate(x, y), new CostLinks());
-                }
+		if (!map.containsKey(new Coordinate(x, y))) {
+		    map.put(new Coordinate(x, y), new CostLinks());
+		}
 
-                map.get(new Coordinate(x, y)).linkReverse(dir).cost(cost(map, x, y));
+		map.get(new Coordinate(x, y)).reverseTheLink(dir)
+			.cost(cost(map, x, y));
 
-                path_num++;
-                
-            }
+		path_num++;
 
-            System.out.println(map.get(new Coordinate(x, y)).cost);
+	    }
 
-            current_case++;
+	    System.out.println(map.get(new Coordinate(x, y)).cost);
 
-        }
+	    currentCase++;
 
-        sc.close();
+	}
+
+	scanner.close();
 
     }
 
     private static int cost(Map<Coordinate, CostLinks> map, int x, int y) {
 
-        int lowestCost = Integer.MAX_VALUE;
+	int lowestCost = Integer.MAX_VALUE;
 
-        if (map.containsKey(new Coordinate(x, y))) {
-            lowestCost = Math.min(lowestCost, map.get(new Coordinate(x, y)).cost);
-        }
+	if (map.containsKey(new Coordinate(x, y))) {
+	    lowestCost = Math.min(lowestCost,
+		    map.get(new Coordinate(x, y)).cost);
+	}
 
-        if (map.containsKey(new Coordinate(x - 1, y)) && map.get(new Coordinate(x, y)).linkS) {
-            lowestCost = Math.min(lowestCost, 1 + map.get(new Coordinate(x - 1, y)).cost);
-        }
+	if (map.containsKey(new Coordinate(x - 1, y))
+		&& map.get(new Coordinate(x, y)).linkS) {
+	    lowestCost = Math.min(lowestCost,
+		    1 + map.get(new Coordinate(x - 1, y)).cost);
+	}
 
-        if (map.containsKey(new Coordinate(x + 1, y)) && map.get(new Coordinate(x, y)).linkN) {
-            lowestCost = Math.min(lowestCost, 1 + map.get(new Coordinate(x + 1, y)).cost);
-        }
+	if (map.containsKey(new Coordinate(x + 1, y))
+		&& map.get(new Coordinate(x, y)).linkN) {
+	    lowestCost = Math.min(lowestCost,
+		    1 + map.get(new Coordinate(x + 1, y)).cost);
+	}
 
-        if (map.containsKey(new Coordinate(x, y - 1)) && map.get(new Coordinate(x, y)).linkE) {
-            lowestCost = Math.min(lowestCost, 1 + map.get(new Coordinate(x, y - 1)).cost);
-        }
+	if (map.containsKey(new Coordinate(x, y - 1))
+		&& map.get(new Coordinate(x, y)).linkE) {
+	    lowestCost = Math.min(lowestCost,
+		    1 + map.get(new Coordinate(x, y - 1)).cost);
+	}
 
-        if (map.containsKey(new Coordinate(x, y + 1)) && map.get(new Coordinate(x, y)).linkW) {
-            lowestCost = Math.min(lowestCost, 1 + map.get(new Coordinate(x, y + 1)).cost);
-        }
+	if (map.containsKey(new Coordinate(x, y + 1))
+		&& map.get(new Coordinate(x, y)).linkW) {
+	    lowestCost = Math.min(lowestCost,
+		    1 + map.get(new Coordinate(x, y + 1)).cost);
+	}
 
-        return lowestCost;
+	return lowestCost;
     }
 }
 
+/**
+ * @version Dec 10, 2013
+ */
 class CostLinks {
 
     public int cost = Integer.MAX_VALUE;
 
-    public boolean linkN, linkS, linkE, linkW;
+    public boolean linkN;
+    public boolean linkS;
+    public boolean linkE;
+    public boolean linkW;
 
     public CostLinks cost(int newCost) {
-        cost = newCost;
-        return this;
+	this.cost = newCost;
+	return this;
     }
 
     public CostLinks link(char dir) {
 
-        if (dir == 'N') {
-            linkN = true;
-        }
+	if (dir == 'N') {
+	    this.linkN = true;
+	}
 
-        else if (dir == 'S') {
-            linkS = true;
-        }
+	else if (dir == 'S') {
+	    this.linkS = true;
+	}
 
-        else if (dir == 'W') {
-            linkW = true;
-        }
+	else if (dir == 'W') {
+	    this.linkW = true;
+	}
 
-        else if (dir == 'E') {
-            linkE = true;
-        }
+	else if (dir == 'E') {
+	    this.linkE = true;
+	}
 
-        return this;
+	return this;
     }
 
-    public CostLinks linkReverse(char dir) {
+    public CostLinks reverseTheLink(char directory) {
 
-        if (dir == 'N') {
-            linkS = true;
-        }
+	if (directory == 'N') {
+	    this.linkS = true;
+	}
 
-        else if (dir == 'S') {
-            linkN = true;
-        }
-        else if (dir == 'W') {
-            linkE = true;
-        }
+	else if (directory == 'S') {
+	    this.linkN = true;
+	} else if (directory == 'W') {
+	    this.linkE = true;
+	}
 
-        else if (dir == 'E') {
-            linkW = true;
-        }
+	else if (directory == 'E') {
+	    this.linkW = true;
+	}
 
-        return this;
+	return this;
     }
 
 }
@@ -160,25 +175,26 @@ class Coordinate {
     public int x;
     public int y;
 
-    public Coordinate(int newX, int newY) {
-        x = newX;
-        y = newY;
+    public Coordinate(int x, int y) {
+	this.x = x;
+	this.y = y;
     }
 
     public int getX() {
-        return x;
+	return this.x;
     }
 
     public int getY() {
-        return y;
+	return this.y;
     }
 
     public boolean equals(Object compareCoordinate) {
-        return ( ((Coordinate) compareCoordinate).getX() == x && ((Coordinate) compareCoordinate).getY() == y);
+	return (((Coordinate) compareCoordinate).getX() == this.x && ((Coordinate) compareCoordinate)
+		.getY() == this.y);
     }
 
     public int hashCode() {
-        return x << 100 + y;
+	return this.x << 100 + this.y;
     }
 
 }

@@ -3,6 +3,9 @@ import java.util.Scanner;
 /**
  * Problem statement can be viewed at:
  * https://icpc-qual-13.contest.scrool.se/problems/ternarianweights
+ * 
+ * @author Quinn Liu (quinnliu@vt.edu)
+ * @author Jason Riddle (jr1285@vt.edu)
  *
  * The following is a solution for the above problem.
  */

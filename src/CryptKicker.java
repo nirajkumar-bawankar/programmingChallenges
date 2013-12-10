@@ -12,8 +12,8 @@ import java.io.IOException;
  *
  * The following is a solution for the above problem.
  *
- * @author Quinn Liu
- * @author Jason Riddle
+ * @author Quinn Liu (quinnliu@vt.edu)
+ * @author Jason Riddle (jr1285@vt.edu)
  */
 public class CryptKicker {
     private static final int NUMBER_OF_UNIQUE_LETTERS = 26;

@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 /**
  * Problem statement can be viewed at:
@@ -6,112 +8,54 @@ import java.util.Scanner;
  *
  * The following is a solution for the above problem.
  */
+
 public class TernarianWeights {
-    private static final int NUMBER_OF_POWERS = 21;
-    private static long[] powersOfNumbers;
+    static BufferedReader bufferedReader = new BufferedReader(
+	    new InputStreamReader(System.in));
+    static Scanner scanner = new Scanner(bufferedReader);
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) {
-	powersOfNumbers = new long[NUMBER_OF_POWERS];
+	for (int numberOfTestCases = scanner.nextInt(); numberOfTestCases-- > 0;) {
 
-	long currentPower = 1;
-	for (int i = 0; i < NUMBER_OF_POWERS; ++i) {
-	    powersOfNumbers[i] = currentPower;
-	    currentPower *= 3;
-	}
+	    int weightOfObjectOnLeftScale = scanner.nextInt();
 
-	Scanner scanner = new Scanner(System.in);
+	    ArrayList<Integer> weightsToAddToLeftScale = new ArrayList<Integer>(), weightsToAddToRightScale = new ArrayList<Integer>();
 
-	long numberOfInputs = scanner.nextInt();
-	for (long input = 0; input < numberOfInputs; ++input) {
+	    for (int p = 1; weightOfObjectOnLeftScale > 0; weightOfObjectOnLeftScale /= 3, p *= 3) {
+		switch (weightOfObjectOnLeftScale % 3) {
 
-	    long target = scanner.nextLong();
-	    if (target == 0) { // end of input stream
-		System.out.println("left pan: ");
-		System.out.println("right pan: ");
-		if (input != numberOfInputs - 1) {
-		    // next input
-		    System.out.println();
-		}
-		continue;
-	    }
-
-	    boolean[] leftSide = new boolean[NUMBER_OF_POWERS];
-
-	    long copyOfTarget;
-	    for (long i = 0; i < Math.pow(2, NUMBER_OF_POWERS); ++i) {
-
-		copyOfTarget = target;
-
-		for (int j = 0; j < NUMBER_OF_POWERS; ++j) {
-		    leftSide[NUMBER_OF_POWERS - 1 - j] = (i & (1 << j)) != 0;
-
-		    if ((i & (1 << j)) != 0) {
-			copyOfTarget += powersOfNumbers[NUMBER_OF_POWERS - 1
-				- j];
-		    }
-		}
-
-		String weightsToAddToRight = weightsToAddToRight(copyOfTarget,
-			leftSide);
-
-		if (weightsToAddToRight != null) {
-		    StringBuilder weightsToAddToLeft = new StringBuilder();
-		    for (int theCurrentPower = NUMBER_OF_POWERS - 1; theCurrentPower >= 0; --theCurrentPower) {
-			if (leftSide[theCurrentPower]) {
-			    weightsToAddToLeft.append(" ");
-			    weightsToAddToLeft
-				    .append(powersOfNumbers[theCurrentPower]);
-			}
-		    }
-
-		    System.out.println("left pan:" + weightsToAddToLeft);
-		    System.out.println("right pan:" + weightsToAddToRight);
-
-		    if (input != numberOfInputs - 1) {
-			// space between inputs
-			System.out.println();
-		    }
+		case 1:
+		    weightsToAddToRightScale.add(p);
 		    break;
+		case 2:
+		    weightsToAddToLeftScale.add(p);
+		    weightOfObjectOnLeftScale++;
+		    break;
+		default:
+		    break;
+
 		}
 	    }
+
+	    printOutToConsoleWeightsToAdd("left", weightsToAddToLeftScale);
+	    printOutToConsoleWeightsToAdd("right", weightsToAddToRightScale);
+
+	    if (numberOfTestCases > 0) {
+		System.out.println();
+	    }
 	}
-	scanner.close();
     }
 
-    private static String weightsToAddToRight(long leftSideWeight,
-	    boolean[] used) {
-	boolean[] weightsUsed = new boolean[NUMBER_OF_POWERS];
+    static void printOutToConsoleWeightsToAdd(String leftOrRight,
+	    ArrayList<Integer> weightsToAddToSide) {
+	Collections.reverse(weightsToAddToSide);
 
-	StringBuilder weightsToAddToRightSid = new StringBuilder();
+	System.out.printf("%s pan:", leftOrRight);
 
-	while (leftSideWeight > 0) {
-	    int largest = 0;
-	    for (int i = 0; i < NUMBER_OF_POWERS; ++i) {
-
-		if (powersOfNumbers[i] > leftSideWeight) {
-		    largest = i - 1;
-		    break;
-		}
-	    }
-
-	    if (used[largest] || weightsUsed[largest]) {
-		break;
-	    }
-
-	    leftSideWeight -= powersOfNumbers[largest];
-
-	    weightsUsed[largest] = true;
-	    weightsToAddToRightSid.append(" ");
-	    weightsToAddToRightSid.append(powersOfNumbers[largest]);
+	for (int currentWeight : weightsToAddToSide) {
+	    System.out.print(" " + currentWeight);
 	}
 
-	if (leftSideWeight != 0) {
-	    return null;
-	}
-
-	return weightsToAddToRightSid.toString();
+	System.out.println();
     }
 }

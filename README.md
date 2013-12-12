@@ -15,6 +15,7 @@ Currently working solutions are:
   + ErraticAnts.java (Regional Qualifier)
   + FuelStops.cpp (Rocky Mountain 2012 Competition)
   + GoldbachConjecture.java (Regional Qualifier)
+  + HappyCamper.cpp (Rocky Mountain 2012 Competition)
   + JollyJumpers.java
   + Nine.cpp (Rocky Mountain 2012 Competition)
   + Oddities.java (Regional Qualifier)

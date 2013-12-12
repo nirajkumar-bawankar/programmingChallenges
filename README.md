@@ -13,10 +13,12 @@ Currently working solutions are:
   + CommonPermutations.cpp
   + CryptKicker.java (MUST be submitted to http://uva.onlinejudge.org/)
   + ErraticAnts.java (Regional Qualifier)
+  + FuelStops.cpp (Rocky Mountain 2012 Competition)
   + GoldbachConjecture.java (Regional Qualifier)
   + JollyJumpers.java
+  + Nine.cpp (Rocky Mountain 2012 Competition)
   + Oddities.java (Regional Qualifier)
-  + Pills.java (Rocky Mountain 2012 Competiton)
+  + Pills.java (Rocky Mountain 2012 Competition)
   + PokerHands.java (TODO: currently not working)
   + SelfDescribingSequence.cpp
   + Shoemaker.cpp

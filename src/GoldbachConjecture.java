@@ -1,66 +1,74 @@
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.List;
 import java.util.Scanner;
 
 public class GoldbachConjecture {
-        public static void main(String[] args) {
-                Scanner sc = new Scanner(System.in);
-                int num_inputs = sc.nextInt();
-                for (int input = 0; input < num_inputs; ++input) {
-                        int target = sc.nextInt();
-                        List<Integer> primes = getListOfPrimes(target);
-                        StringBuilder out = new StringBuilder();
-                        int found = 0;
-                        for (int prime : primes) {
-                                if (prime > target / 2) {
-                                        break;
-                                }
-                                if (primes.contains(target - prime)) {
-                                        out.append(prime + "+" + (target - prime) + "\n");
-                                        ++found;
-                                }
-                        }
-                        System.out.println(target + " has " + found + " representation(s)");
-                        System.out.print(out);
-                        if (input != num_inputs - 1) {
-                                System.out.println();
-                        }
-                }
-                sc.close();
-        }
 
-        public static boolean isPrime(long n) {
-                if (n < 2)
-                        return false;
-                if (n == 2 || n == 3)
-                        return true;
-                if (n % 2 == 0 || n % 3 == 0)
-                        return false;
-                long sqrtN = (long) Math.sqrt(n) + 1;
-                for (long i = 6L; i <= sqrtN; i += 6) {
-                        if (n % (i - 1) == 0 || n % (i + 1) == 0)
-                                return false;
-                }
-                return true;
-        }
+    public static void main(String[] args) throws IOException {
+	runProblem();
+    }
 
-        public static List<Integer> getListOfPrimes(int max) {
-                BitSet sieve = new BitSet((max + 2) / 2);
-                for (int i = 3; i * i <= max; i += 2) {
-                        if (sieve.get((i - 3) / 2))
-                                continue;
+    public static void runProblem() {
 
-                        // We increment by 2*i to skip even multiples of i
-                        for (int multiple_i = i * i; multiple_i <= max; multiple_i += 2 * i)
-                                sieve.set((multiple_i - 3) / 2);
-                }
+	Scanner in = new Scanner(System.in);
 
-                List<Integer> primes = new ArrayList<Integer>();
-                primes.add(2);
-                for (int i = 3; i <= max; i += 2)
-                        if (!sieve.get((i - 3) / 2))
-                                primes.add(i);
-                return primes;
-        }
+	ArrayList<Integer> nums = new ArrayList<Integer>();
+
+	int problems = in.nextInt();
+
+	while (problems > 0) {
+	    nums.add(in.nextInt());
+	    problems--;
+	}
+
+	for (Integer num : nums) {
+	    runOne(num);
+	}
+
+	in.close();
+    }
+
+    public static void runOne(int number) {
+
+	ArrayList<Integer> printed = new ArrayList<Integer>();
+
+	ArrayList<String> answer = new ArrayList<String>();
+
+	int count = 0;
+
+	for (int i = 0; i < number; i++) {
+
+	    if (isPrime(i) && isPrime(number - i)
+		    && !printed.contains(number - i)) {
+		answer.add("" + i + "+" + (number - i));
+		printed.add(i);
+		count++;
+	    }
+	}
+
+	System.out.println(number + " has " + count + " representation(s)");
+
+	for (String element : answer) {
+	    System.out.println(element);
+	}
+
+	System.out.println("");
+
+    }
+
+    static boolean isPrime(int n) {
+	if (n < 2) {
+	    return false;
+	}
+
+	int q = (int) Math.sqrt(n);
+
+	for (int i = 2; i <= q; i++) {
+	    if (n % i == 0) {
+		return false;
+	    }
+	}
+
+	return true;
+    }
 }

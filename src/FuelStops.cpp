@@ -2,44 +2,57 @@
 #include <iostream>
 #include <numeric>
 
+/**
+ * Find problem statement at:
+ * https://theta.cs.vt.edu/acm/shared/fall2013/handouts-week9/rockymountain2012problems/fuel.pdf
+ *
+ * Below is a solution to this problem.
+ */
 int MAXIMUM_NUMBER_OF_CITIES = 100000;
 
-bool printOutValidStartCityNumbers(int quantityOfFuel) {
+bool printOutValidStartCityNumbers(int testCaseNumber) {
 	int numberOfTestCases;
 	std::cin >> numberOfTestCases;
 
-	if (!numberOfTestCases) {
-		return false;
+	if (numberOfTestCases == 0) {
+		return false; // program is over
 	}
 
-	std::cout << "Case " << quantityOfFuel << ":";
+	std::cout << "Case " << testCaseNumber << ":";
 
-	int amountOfFuelAtAllStations[MAXIMUM_NUMBER_OF_CITIES];
+	int amountOfFuelAtEachStation[MAXIMUM_NUMBER_OF_CITIES];
 
 	for (int i = 0; i < numberOfTestCases; i++) {
-		std::cin >> amountOfFuelAtAllStations[i];
+		std::cin >> amountOfFuelAtEachStation[i];
 	}
 
 	for (int i = 0; i < numberOfTestCases; i++) {
-		int x;
-		std::cin >> x;
-		amountOfFuelAtAllStations[i] = amountOfFuelAtAllStations[i] - x;
+		int quantityOfFuelToGetToNextFuelingStationInNextCity;
+		std::cin >> quantityOfFuelToGetToNextFuelingStationInNextCity;
+		amountOfFuelAtEachStation[i] = amountOfFuelAtEachStation[i]
+				- quantityOfFuelToGetToNextFuelingStationInNextCity;
 	}
 
-	int sum[MAXIMUM_NUMBER_OF_CITIES];
+	int partialSums[MAXIMUM_NUMBER_OF_CITIES];
 
 	// partial_sum is a function within imported numeric file
-	std::partial_sum(amountOfFuelAtAllStations,
-			amountOfFuelAtAllStations + numberOfTestCases, sum);
+	std::partial_sum(amountOfFuelAtEachStation,
+			amountOfFuelAtEachStation + numberOfTestCases, partialSums);
 
 	// min_element is a function within imported algorithms file
-	int worst = *std::min_element(sum, sum + numberOfTestCases);
+	int fuelingStationWithEnoughFuel = *std::min_element(partialSums,
+			partialSums + numberOfTestCases);
 
-	for (int i = 0; i < numberOfTestCases; i++) {
-		if (worst >= 0) {
-			std::cout << ' ' << i + 1;
+	for (int indexOfSuccessfulStartingCity = 0;
+			indexOfSuccessfulStartingCity < numberOfTestCases;
+			indexOfSuccessfulStartingCity++) {
+
+		if (fuelingStationWithEnoughFuel >= 0) {
+			std::cout << ' ' << indexOfSuccessfulStartingCity + 1;
 		}
-		worst = worst - amountOfFuelAtAllStations[i];
+
+		fuelingStationWithEnoughFuel = fuelingStationWithEnoughFuel
+				- amountOfFuelAtEachStation[indexOfSuccessfulStartingCity];
 	}
 
 	std::cout << std::endl;
@@ -47,8 +60,8 @@ bool printOutValidStartCityNumbers(int quantityOfFuel) {
 }
 
 int main() {
-	int quantityOfFuel = 1;
-	while (printOutValidStartCityNumbers(quantityOfFuel++))
+	int testCaseNumber = 1;
+	while (printOutValidStartCityNumbers(testCaseNumber++))
 		;
 	return 0;
 }

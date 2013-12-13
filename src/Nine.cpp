@@ -22,15 +22,21 @@ int main() {
 	char colon;
 
 	int nines[100];
+	// figure out which numbers from 0 to 100 contain the number 9
+	// store an array of size 100 where the element at each
+	// index stores how many '9s' there are in the number in base 10
 	for (int i = 0; i <= 99; i++) {
 		nines[i] = 0;
 
+		// 19 % 10 == 9
+		// 29, 39, 49, 59, 69, ...
 		if (i % 10 == 9) {
-			nines[i]++;
+			nines[i]++; // nines[19] = 1; nines[29] = 1 ...
 		}
 
+		// 90 / 10 == 9
 		if (i / 10 == 9) {
-			nines[i]++;
+			nines[i]++; // nines[90] = 2
 		}
 	}
 
@@ -39,7 +45,7 @@ int main() {
 		int smallestErrorOutOfAllPossibilities = 1000000;
 
 		int bestSeconds = 0;
-		int best9 = -1;
+		int bestNumberOf9s = -1;
 		int bestMilliseconds = 0;
 
 		// output format forces milliseconds to display only in 2 digits
@@ -57,23 +63,24 @@ int main() {
 
 				int currentError = abs(T9 - T);
 
-				if (currentError * 10 >= T) {
+				if (currentError >= T / 10) {
+					// currentError is to great so skip this invalid sequence
 					continue;
 				}
 
 				int numberOf9s = nines[millisecondsExpressedAs2Digits]
 						+ nines[secondsExpressedAs2Digits];
 
-				if (numberOf9s > best9
-						|| (numberOf9s == best9
+				if (numberOf9s > bestNumberOf9s
+						|| (numberOf9s == bestNumberOf9s
 								&& currentError
 										< smallestErrorOutOfAllPossibilities)
-						|| (numberOf9s == best9
+						|| (numberOf9s == bestNumberOf9s
 								&& currentError
 										== smallestErrorOutOfAllPossibilities
 								&& millisecondsExpressedAs2Digits
 										< bestMilliseconds)
-						|| (numberOf9s == best9
+						|| (numberOf9s == bestNumberOf9s
 								&& currentError
 										== smallestErrorOutOfAllPossibilities
 								&& millisecondsExpressedAs2Digits
@@ -82,7 +89,7 @@ int main() {
 
 					bestMilliseconds = millisecondsExpressedAs2Digits;
 					bestSeconds = secondsExpressedAs2Digits;
-					best9 = numberOf9s;
+					bestNumberOf9s = numberOf9s;
 					smallestErrorOutOfAllPossibilities = currentError;
 				}
 			}

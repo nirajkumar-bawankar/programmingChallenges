@@ -5,7 +5,7 @@
 using namespace std;
 
 /**
- * Find problem statement at:https://theta.cs.vt.edu/acm/shared/fall2013/handouts-week9/rockymountain2012problems/nine.pdf
+ * Find problem statement at: https://theta.cs.vt.edu/acm/shared/fall2013/handouts-week9/rockymountain2012problems/nine.pdf
  *
  * Below is a solution to this problem.
  *
@@ -42,10 +42,12 @@ int main() {
 		int best9 = -1;
 		int bestMilliseconds = 0;
 
+		// output format forces milliseconds to display only in 2 digits
 		for (int millisecondsExpressedAs2Digits = 0;
 				millisecondsExpressedAs2Digits <= 99;
 				millisecondsExpressedAs2Digits++) {
 
+			// output format forces seconds to display only in 2 digits
 			for (int secondsExpressedAs2Digits = 0;
 					secondsExpressedAs2Digits <= 99;
 					secondsExpressedAs2Digits++) {
@@ -59,19 +61,19 @@ int main() {
 					continue;
 				}
 
-				int num9 = nines[millisecondsExpressedAs2Digits]
+				int numberOf9s = nines[millisecondsExpressedAs2Digits]
 						+ nines[secondsExpressedAs2Digits];
 
-				if (num9 > best9
-						|| (num9 == best9
+				if (numberOf9s > best9
+						|| (numberOf9s == best9
 								&& currentError
 										< smallestErrorOutOfAllPossibilities)
-						|| (num9 == best9
+						|| (numberOf9s == best9
 								&& currentError
 										== smallestErrorOutOfAllPossibilities
 								&& millisecondsExpressedAs2Digits
 										< bestMilliseconds)
-						|| (num9 == best9
+						|| (numberOf9s == best9
 								&& currentError
 										== smallestErrorOutOfAllPossibilities
 								&& millisecondsExpressedAs2Digits
@@ -80,7 +82,7 @@ int main() {
 
 					bestMilliseconds = millisecondsExpressedAs2Digits;
 					bestSeconds = secondsExpressedAs2Digits;
-					best9 = num9;
+					best9 = numberOf9s;
 					smallestErrorOutOfAllPossibilities = currentError;
 				}
 			}
